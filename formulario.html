@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Formulario de Votación</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script.js"></script>
+</head>
+
+<body>
+  <h2>Formulario de Votación</h2>
+
+  <form id="votacionForm" action="procesar_voto.php" method="POST">
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" required><br>
+
+    <label for="apellido">Apellido:</label>
+    <input type="text" name="apellido" required><br>
+
+    <label for="alias">Alias:</label>
+    <input type="text" name="alias" required><br>
+
+    <label for="rut">RUT:</label>
+    <input type="text" name="rut" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" required><br>
+
+    <label for="region">Región:</label>
+    <select id="region" name="region" required>
+      <option value="">Selecciona una región</option>
+    </select><br>
+
+    <label for="comuna">Comuna:</label>
+    <select id="comuna" name="comuna" required>
+      <option value="">Selecciona una comuna</option>
+    </select><br>
+
+    <label for="candidato">Candidato:</label>
+    <select name="candidato" required>
+      <option value="">Selecciona un candidato</option>
+    </select><br>
+
+    <label>¿Cómo te enteraste de nosotros?</label><br>
+    <input type="checkbox" name="comoSeEntero[]" value="Web">Web<br>
+    <input type="checkbox" name="comoSeEntero[]" value="TV">TV<br>
+    <input type="checkbox" name="comoSeEntero[]" value="Redes Sociales">Redes Sociales<br>
+    <input type="checkbox" name="comoSeEntero[]" value="Amigo">Amigo<br>
+
+    <input type="submit" value="Enviar">
+  </form>
+</body>
+
+</html>
