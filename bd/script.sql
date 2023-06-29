@@ -32,6 +32,7 @@ CREATE TABLE comunas (
 -- Crear tabla de votos
 CREATE TABLE votos (
   id_voto SERIAL PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
   rut VARCHAR(12) NOT NULL,
   id_candidato INT NOT NULL,
   id_region INT NOT NULL,

@@ -1,19 +1,19 @@
 <?php
+//conexion a la bd
 $host = 'localhost';
 $port = '5432';
 $usuario = 'postgres';
 $contrasena = 'admin';
 $nombreBD = 'sistema_votacion';
-
-// Conexión a la base de datos
-$conex = pg_connect("host=$host port=$port dbname=$nombreBD user=$usuario password=$contrasena")
+$conn = pg_connect("host=$host port=$port dbname=$nombreBD user=$usuario password=$contrasena")
   or die('Error de conexión a la base de datos');
 
 // Obtener las regiones desde la base de datos
 function obtenerRegiones() {
-  global $conex;
+  global $conn;
+  //se genera la query y se consulta
   $query = "SELECT nombre FROM regiones";
-  $result = pg_query($conex, $query);
+  $result = pg_query($conn, $query);
 
   $regiones = array();
   while ($row = pg_fetch_assoc($result)) {
@@ -25,9 +25,9 @@ function obtenerRegiones() {
 
 // Obtener las comunas de una región desde la base de datos
 function obtenerComunas($region) {
-  global $conex;
+  global $conn;
   $query = "SELECT nombre FROM comunas WHERE region = '$region'";
-  $result = pg_query($conex, $query);
+  $result = pg_query($conn, $query);
 
   $comunas = array();
   while ($row = pg_fetch_assoc($result)) {
@@ -39,9 +39,9 @@ function obtenerComunas($region) {
 
 // Obtener los candidatos desde la base de datos
 function obtenerCandidatos() {
-  global $conex;
+  global $conn;
   $query = "SELECT nombre FROM candidatos";
-  $result = pg_query($conex, $query);
+  $result = pg_query($conn, $query);
 
   $candidatos = array();
   while ($row = pg_fetch_assoc($result)) {
@@ -80,10 +80,9 @@ function validarRut($rut) {
 
 // Procesar el voto
 function procesarVoto() {
-  global $conex;
+  global $conn;
 
   $nombre = $_POST['nombre'];
-  $apellido = $_POST['apellido'];
   $alias = $_POST['alias'];
   $rut = $_POST['rut'];
   $email = $_POST['email'];
@@ -93,7 +92,7 @@ function procesarVoto() {
   $comoSeEntero = $_POST['comoSeEntero'];
 
   // Validar campos obligatorios
-  if (empty($nombre) || empty($apellido) || empty($alias) || empty($rut) || empty($email) || empty($region) || empty($comuna) || empty($candidato) || empty($comoSeEntero)) {
+  if (empty($nombre) || empty($alias) || empty($rut) || empty($email) || empty($region) || empty($comuna) || empty($candidato) || empty($comoSeEntero)) {
     return 'Todos los campos son obligatorios';
   }
 
@@ -113,8 +112,8 @@ function procesarVoto() {
   }
 
   // Realizar el insert en la base de datos
-  $query = "INSERT INTO votantes (nombre, apellido, alias, rut, email, region, comuna, candidato, como_se_entero) VALUES ('$nombre', '$apellido', '$alias', '$rut', '$email', '$region', '$comuna', '$candidato', '$comoSeEntero')";
-  $result = pg_query($conex, $query);
+  $query = "INSERT INTO votantes (nombre, alias, rut, email, region, comuna, candidato, como_se_entero) VALUES ('$nombre', '$alias', '$rut', '$email', '$region', '$comuna', '$candidato', '$comoSeEntero')";
+  $result = pg_query($conn, $query);
 
   if ($result) {
     return 'Voto registrado correctamente';
@@ -132,5 +131,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Cerrar la conexión a la base de datos
-pg_close($conex);
+pg_close($conn);
 ?>
